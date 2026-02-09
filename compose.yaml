@@ -1,0 +1,44 @@
+services:
+  plutono:
+    image: ghcr.io/credativ/plutono:v7.5.43
+    container_name: plutono
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes:
+      - plutono_store:/var/lib/plutono
+      - ./cfg-data/plutono/provisioning:/etc/plutono/provisioning
+  prometheus:
+    container_name: prometheus
+    restart: unless-stopped
+    image: prom/prometheus:v3.7.3
+    volumes:
+      - ./cfg-data/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_store:/prometheus
+  collector:
+    container_name: collector
+    image: vplc_collector
+    build:
+      context: ./src/vplc_collector
+      args:
+        http_proxy: 
+        https_proxy: 
+    pull_policy: build
+    restart: unless-stopped
+    environment:
+      VPLC_ACCESS_FILE: /run/secrets/vplc_access
+    volumes:
+      - ./src/vplc_collector:/usr/src/app
+    secrets:
+      - vplc_access 
+secrets:
+  vplc_access:
+    file: cfg-data/secrets.json
+networks:
+  default:
+    name: vplc_vis_network
+volumes:
+  prometheus_store:
+    name: vplc_vis_prometheus_store
+  plutono_store:
+    name: vplc_vis_plutono_store
