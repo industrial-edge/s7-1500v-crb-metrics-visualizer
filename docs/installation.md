@@ -28,7 +28,7 @@ Download or clone the repository source code to your workstation.
 * Through terminal:
 ```bash
 git clone <your-repository-url>
-cd s7-1500v-metrics-visualizer
+cd s7-1500v-crb-metrics-visualizer
 ```
 
 * Through VSCode:  
@@ -36,7 +36,7 @@ cd s7-1500v-metrics-visualizer
 
 ### Build docker image
 
-- Navigate to the project root folder (where the `docker-compose.yml` file is located)
+- Navigate to the project root folder (where the `compose.yaml` file is located)
 - The collector service will be built automatically during the first startup
 - Use the following command to build all services:
 
@@ -238,7 +238,7 @@ sudo systemctl restart docker
 
 ### Compose Build Configuration
 
-If proxy is required during build time, update the `docker-compose.yml` file:
+If proxy is required during build time, update the `compose.yaml` file:
 
 ```yaml
 services:
