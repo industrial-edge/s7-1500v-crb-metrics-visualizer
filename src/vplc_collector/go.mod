@@ -2,6 +2,8 @@ module vplc-metrics-exporter
 
 go 1.25
 
+godebug multipathtcp=0
+
 require github.com/prometheus/client_golang v1.23.2
 
 require (
